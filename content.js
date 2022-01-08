@@ -70,7 +70,8 @@ document.addEventListener('keyup', (evt) => {
 
 // Override 'Space' to be able to write space character inside search input
 document.addEventListener('keydown', (evt) => {
-  if (document.activeElement instanceof HTMLInputElement) return
+  if (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement) return
+  if (document.activeElement.hasAttribute('contenteditable')) return
 
   if (evt.key === ' ') evt.preventDefault()
 })
