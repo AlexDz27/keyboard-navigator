@@ -41,6 +41,14 @@ document.addEventListener('keyup', (evt) => {
 
 document.addEventListener('keyup', (evt) => {
   if (evt.ctrlKey && (evt.key === '/' || evt.key === '.')) {
+    clickables.forEach((clickable) => {
+      clickable.style.outline = '1px dotted gray'
+
+      clickable.onfocus = () => {
+        clickable.style.outline = '1px solid cyan'
+      }
+    })
+
     clickables[idx].focus()
   }
 
@@ -48,12 +56,16 @@ document.addEventListener('keyup', (evt) => {
     idx--
     if (idx < 0) idx = clickables.length - 1
 
+    clickables[idx + 1].style.outline = ''
+
     clickables[idx].focus()
   }
 
   if (evt.key === ']') {
     idx++
     if (idx > clickables.length - 1) idx = 0
+
+    clickables[idx - 1].style.outline = ''
 
     clickables[idx].focus()
   }
@@ -65,6 +77,10 @@ document.addEventListener('keyup', (evt) => {
     searchInput = ''
     idx = 0
     knSearchInput.innerText = searchInput
+
+    clickables.forEach((clickable) => {
+      clickable.style.outline = ''
+    })
   }
 })
 
