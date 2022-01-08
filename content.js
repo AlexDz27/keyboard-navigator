@@ -1,11 +1,12 @@
-console.log(12312312312)
-
+let idx = 0
+let links
 let searchInput = ''
 document.addEventListener('keyup', (evt) => {
   /* Populate search input */
-  // Negate the following keys: 'Ctrl', 'Shift', 'Tab', 'Alt', 'Escape', all arrow keys (up, down, left, right)
+  // Negate the following keys: 'Ctrl', 'Shift', 'Tab', 'Alt', 'Escape', 'Enter', all arrow keys (up, down, left, right)
   if (evt.key === 'Control' || evt.key === 'Shift' || evt.key === 'Tab'
-    || evt.key === 'Alt' || evt.key === 'Escape' || evt.key.includes('Arrow')) return
+    || evt.key === 'Alt' || evt.key === 'Escape' || evt.key === 'Enter'
+    || evt.key === ']' || evt.key.includes('Arrow')) return
 
   // On hitting Ctrl + i, clear the whole search input
   if (evt.ctrlKey && evt.key === 'i') {
@@ -14,18 +15,24 @@ document.addEventListener('keyup', (evt) => {
   }
 
   searchInput += evt.key
+  idx = 0
   console.log(searchInput)
 
-  /* Find links/buttons in viewport */
-  let links = document.querySelectorAll('a')
+  /* Find links/buttons in viewport and highlight them */
+  links = document.querySelectorAll('a')
   links = Array.from(links).filter(link => link.innerText.toLowerCase().includes(searchInput))
   links = links.filter(link => isInViewport(link))
 
-  if (links.length === 1) {
-    links[0].focus()
-  }
-
   console.log(links)
+})
+
+document.addEventListener('keyup', (evt) => {
+  if (evt.key === ']') {
+    links[idx].focus()
+
+    idx++
+    if (idx > links.length - 1) idx = 0
+  }
 })
 
 
